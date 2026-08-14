@@ -26,28 +26,7 @@
     color:var(--text);
     padding:16px;
     padding-bottom:40px;
-    transition:background-color 0.2s;
   }
-  body.manual-mode{
-    background:#f7d7d0;
-  }
-  body.manual-mode .leg-btn:not(.active),
-  body.manual-mode .next-card,
-  body.manual-mode .thumb{
-    background:#fff3ee;
-  }
-  .manual-banner{
-    display:none;
-    text-align:center;
-    background:var(--red);
-    color:#fff;
-    font-weight:bold;
-    font-size:13px;
-    padding:7px;
-    border-radius:10px;
-    margin-bottom:12px;
-  }
-  body.manual-mode .manual-banner{display:block;}
   .header-row{
     position:relative;
     margin-bottom:4px;
@@ -69,12 +48,12 @@
     margin-left:6px;
     padding:2px 8px;
     border-radius:10px;
-    font-size:14px;
+    font-size:12px;
     font-weight:bold;
   }
   .badge.weekday{background:#dbeafe;color:var(--blue-dark);}
-  .badge.holiday{background:#fde2e2;color:var(--red);font-size:15px;}
-  .badge.manual{background:var(--red);color:#fff;font-size:15px;}
+  .badge.holiday{background:#fde2e2;color:var(--red);}
+  .badge.manual{background:#fde9c8;color:var(--orange);}
 
   .override-btn{
     position:absolute;
@@ -83,33 +62,38 @@
     border:1.5px solid #d9dee3;
     background:var(--card);
     border-radius:14px;
-    padding:6px 12px;
-    font-size:12px;
+    padding:6px 8px;
+    font-size:10px;
     font-weight:bold;
     color:var(--muted);
+    line-height:1.3;
+    max-width:66px;
     cursor:pointer;
     -webkit-tap-highlight-color:transparent;
   }
   .override-btn.on{
-    background:var(--red);
+    background:var(--orange);
     color:#fff;
-    border-color:var(--red);
+    border-color:var(--orange);
+    max-width:none;
   }
 
-  .rows-wrap{
-    display:flex;
-    flex-direction:column;
-    gap:16px;
+  .legs{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    column-gap:22px;
+    row-gap:12px;
     margin-bottom:20px;
   }
-  .home-row{
+  .route-visual{
     display:grid;
-    grid-template-columns:1fr 30px 1fr;
-    column-gap:10px;
-    margin-bottom:-4px;
+    grid-template-columns:1fr 1fr;
+    column-gap:22px;
+    align-items:center;
+    margin-bottom:14px;
+    position:relative;
   }
-  .home-row .home-icon{
-    grid-column:1;
+  .route-visual .home-icon{
     display:flex;
     flex-direction:column;
     align-items:center;
@@ -118,70 +102,61 @@
     color:var(--green);
     font-weight:bold;
   }
-  .route-row{
-    display:grid;
-    grid-template-columns:1fr 30px 1fr;
-    column-gap:10px;
-    align-items:stretch;
+  .route-visual .dest-icon{
+    visibility:hidden;
   }
-  .road{
-    position:relative;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-  }
-  .road::before{
+  .route-visual::after{
     content:"";
     position:absolute;
-    left:-2px;
-    right:-2px;
+    left:calc(50% - 11px);
     top:50%;
-    border-top:3px dashed var(--road-color, #c7ccd1);
+    width:22px;
+    border-top:2px dashed #c7ccd1;
   }
-  .road .bus{
-    position:relative;
-    z-index:2;
+  .route-visual .bus-emoji{
+    position:absolute;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%);
+    font-size:14px;
     background:var(--bg);
-    border-radius:6px;
-    padding:1px 2px;
-    font-size:15px;
+    padding:0 2px;
+    z-index:2;
   }
   .leg-btn{
     background:var(--card);
     border:2px solid #d9dee3;
     border-radius:14px;
-    padding:16px 8px;
+    padding:14px 8px;
     text-align:center;
     font-size:13px;
     font-weight:bold;
     line-height:1.4;
     cursor:pointer;
-    box-shadow:0 1px 3px rgba(0,0,0,0.06);
     -webkit-tap-highlight-color:transparent;
   }
   .leg-btn .stop-name{
     display:flex;
     align-items:center;
     justify-content:center;
-    gap:5px;
+    gap:4px;
     font-weight:bold;
     color:var(--text);
-    font-size:18px;
-    margin-bottom:5px;
+    font-size:16px;
+    margin-bottom:4px;
   }
   .leg-btn .route-line{
     display:flex;
     align-items:center;
     justify-content:center;
-    gap:5px;
+    gap:4px;
     font-weight:normal;
     color:var(--muted);
-    font-size:13px;
+    font-size:12px;
   }
   .leg-btn.active{
     color:#fff;
     border-color:transparent;
-    box-shadow:0 3px 8px rgba(0,0,0,0.18);
   }
   .leg-btn.active.color-jr{
     background:var(--jr-blue);
@@ -193,19 +168,18 @@
   }
   .leg-btn.active .stop-name,
   .leg-btn.active .route-line{color:#fff;}
-  .train-chip{
-    display:inline-flex;
-    align-items:center;
-    background:#fff;
-    border-radius:5px;
-    padding:2px 3px;
-    box-shadow:0 0 0 1px rgba(0,0,0,0.06);
-  }
 
   .result{
     display:none;
   }
   .result.show{display:block;}
+
+  .board-note{
+    text-align:center;
+    font-size:13px;
+    color:var(--muted);
+    margin-bottom:14px;
+  }
 
   .next-cards{
     display:flex;
@@ -259,6 +233,12 @@
     margin-top:8px;
     border-top:1px solid #e2e6ea;
     padding-top:16px;
+  }
+  .thumbs-title{
+    font-size:13px;
+    color:var(--muted);
+    text-align:center;
+    margin-bottom:10px;
   }
   .thumbs{
     display:grid;
@@ -324,46 +304,57 @@
     cursor:pointer;
   }
 
+  .footnote{
+    margin-top:20px;
+    font-size:11px;
+    color:var(--muted);
+    text-align:center;
+    line-height:1.6;
+  }
 </style>
 </head>
 <body>
 
-<div class="manual-banner">手動：休日ダイヤ中</div>
-
 <div class="header-row">
   <h1>🚌 125系統 バス時刻</h1>
-  <button class="override-btn" id="overrideBtn" onclick="toggleOverride()">休日ダイヤ</button>
+  <button class="override-btn" id="overrideBtn" onclick="toggleOverride()">盆・正月<br>手動で休日に</button>
 </div>
 <div class="clock" id="clock">--:--</div>
 
-<div class="rows-wrap">
-  <div class="home-row">
-    <div class="home-icon">
-      <svg viewBox="0 0 48 48" width="56" height="56" xmlns="http://www.w3.org/2000/svg">
-        <rect x="8" y="16" width="32" height="28" rx="1.5" fill="#ffffff" stroke="#c9cfd6" stroke-width="1.5"/>
-        <polygon points="5,18 24,6 43,18" fill="#2f9e52"/>
-        <rect x="21" y="34" width="6" height="10" fill="#c9cfd6"/>
-        <rect x="12" y="21" width="4" height="4" fill="#a9c9e8"/>
-        <rect x="20" y="21" width="4" height="4" fill="#a9c9e8"/>
-        <rect x="28" y="21" width="4" height="4" fill="#a9c9e8"/>
-        <rect x="12" y="28" width="4" height="4" fill="#a9c9e8"/>
-        <rect x="32" y="21" width="4" height="4" fill="#a9c9e8"/>
-        <rect x="32" y="28" width="4" height="4" fill="#a9c9e8"/>
-      </svg>
-      自宅
-    </div>
+<div class="route-visual">
+  <div class="home-icon">
+    <svg viewBox="0 0 48 48" width="56" height="56" xmlns="http://www.w3.org/2000/svg">
+      <rect x="8" y="16" width="32" height="28" rx="1.5" fill="#ffffff" stroke="#c9cfd6" stroke-width="1.5"/>
+      <polygon points="5,18 24,6 43,18" fill="#2f9e52"/>
+      <rect x="21" y="34" width="6" height="10" fill="#c9cfd6"/>
+      <rect x="12" y="21" width="4" height="4" fill="#a9c9e8"/>
+      <rect x="20" y="21" width="4" height="4" fill="#a9c9e8"/>
+      <rect x="28" y="21" width="4" height="4" fill="#a9c9e8"/>
+      <rect x="12" y="28" width="4" height="4" fill="#a9c9e8"/>
+      <rect x="32" y="21" width="4" height="4" fill="#a9c9e8"/>
+      <rect x="32" y="28" width="4" height="4" fill="#a9c9e8"/>
+    </svg>
+    自宅
   </div>
-  <div id="legs"></div>
+  <div class="dest-icon">.</div>
+  <div class="bus-emoji">🚌</div>
 </div>
+<div class="legs" id="legs"></div>
 
-<div class="placeholder" id="placeholder">↑ボタンをタップ</div>
+<div class="placeholder" id="placeholder">上のボタンから「今いる場所→行き先」を選んでください</div>
 
 <div class="result" id="result">
+  <div class="board-note" id="boardNote"></div>
   <div class="next-cards" id="nextCards"></div>
 </div>
 
 <div class="thumbs-section">
+  <div class="thumbs-title">時刻表（タップで拡大）</div>
   <div class="thumbs" id="thumbs"></div>
+</div>
+
+<div class="footnote">
+  みなと観光バス 125系統（2020年8月1日改定ダイヤ）に基づく簡易ツール。祝日判定は2026年の祝日で対応（それ以降の年は土日のみ自動判定）。盆・正月などイレギュラーな休日ダイヤの日は上部のボタンで手動切替できます。実際の運行状況は現地表示・バス会社発表を優先してください。
 </div>
 
 <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
@@ -433,19 +424,19 @@ const legs = [
   }
 ];
 
-const buttonRows = [
-  ['toAshiya','toMidori1'],
-  ['toShukugawa','toMidori2']
-];
+const buttonOrder = ['toAshiya','toMidori1','toShukugawa','toMidori2'];
 
+const trainIconColors = { jr: 'var(--jr-blue)', hankyu: 'var(--hankyu-purple)' };
 function trainIcon(type){
   const color = type === 'jr' ? '#0068b7' : '#6a3fa0';
-  const svg = '<svg viewBox="0 0 24 16" width="18" height="12" xmlns="http://www.w3.org/2000/svg">' +
-    '<rect x="1" y="2" width="22" height="12" rx="4" fill="' + color + '"/>' +
-    '<rect x="5" y="6" width="4.5" height="4.5" fill="#fff"/>' +
-    '<rect x="14.5" y="6" width="4.5" height="4.5" fill="#fff"/>' +
+  return '<svg viewBox="0 0 24 16" width="18" height="12" xmlns="http://www.w3.org/2000/svg">' +
+    '<rect x="1" y="2" width="22" height="10" rx="3" fill="' + color + '"/>' +
+    '<rect x="4" y="5" width="4" height="4" fill="#fff" opacity="0.85"/>' +
+    '<rect x="10" y="5" width="4" height="4" fill="#fff" opacity="0.85"/>' +
+    '<rect x="16" y="5" width="4" height="4" fill="#fff" opacity="0.85"/>' +
+    '<circle cx="6" cy="14" r="1.6" fill="#333"/>' +
+    '<circle cx="18" cy="14" r="1.6" fill="#333"/>' +
     '</svg>';
-  return '<span class="train-chip">' + svg + '</span>';
 }
 
 // ---- 2026年の祝日（MM-DD） ----
@@ -484,7 +475,7 @@ function toggleOverride(){
   manualHoliday = !manualHoliday;
   const btn = document.getElementById('overrideBtn');
   btn.classList.toggle('on', manualHoliday);
-  document.body.classList.toggle('manual-mode', manualHoliday);
+  btn.innerHTML = manualHoliday ? '手動：休日中<br>（タップで解除）' : '盆・正月<br>手動で休日に';
   render();
 }
 
@@ -514,6 +505,7 @@ function render(){
   document.getElementById('result').classList.add('show');
 
   const leg = legs.find(l => l.id === selectedLeg);
+  document.getElementById('boardNote').textContent = leg.note;
 
   const times = holiday ? leg.holiday : leg.weekday;
   const upcoming = times.filter(t => t >= nowMin);
@@ -541,9 +533,7 @@ function render(){
 function buildButtons(){
   const wrap = document.getElementById('legs');
   const keyword = { jr: 'JR芦屋', hankyu: '夙川' };
-  const roadColor = { jr: 'var(--jr-blue)', hankyu: 'var(--hankyu-purple)' };
-
-  function renderBtn(id){
+  wrap.innerHTML = buttonOrder.map(id => {
     const l = legs.find(x => x.id === id);
     const kw = keyword[l.type];
     const stopHasKw = l.stopLabel.includes(kw);
@@ -553,16 +543,7 @@ function buildButtons(){
       '<span class="stop-name">' + stopHtml + '</span>' +
       '<span class="route-line">' + routeHtml + '</span>' +
       '</div>';
-  }
-
-  wrap.innerHTML = buttonRows.map(pair => {
-    const type = legs.find(x => x.id === pair[0]).type;
-    return '<div class="route-row">' +
-      renderBtn(pair[0]) +
-      '<div class="road" style="--road-color:' + roadColor[type] + '"><span class="bus">🚌</span></div>' +
-      renderBtn(pair[1]) +
-      '</div>';
-  }).join('<div style="height:14px"></div>');
+  }).join('');
 }
 
 function buildThumbs(){
